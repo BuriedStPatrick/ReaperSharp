@@ -22,7 +22,7 @@ namespace ReaperCLI
 
             p.Setup(arg => arg.File)
                 .As('f', "file")
-                .WithDescription("The path to the RPP file")
+                .WithDescription("The path to the REAPER project (RPP) file")
                 .SetDefault(args.Length > 0 ? args[0] : string.Empty)
                 .Required();
 
@@ -39,17 +39,17 @@ namespace ReaperCLI
 
             var arguments = p.Object;
 
-            if (arguments.File != null)
+            if (arguments.File == null)
             {
-                Console.WriteLine($"Parsing: {arguments.File}");
-
-                var parser = new ReaperParser(new DebugLogger());
-                var parseResult = parser.Parse(arguments.File);
-
-                var track = parseResult.FindTrack(t => t.Name == "Ambient");
-
-                Console.WriteLine(track?.TrackId.ToString() ?? "Missing ID :(");
+                return 0;
             }
+
+            var parser = new ReaperParser(new DebugLogger());
+            var parseResult = parser.Parse(arguments.File);
+
+            var track = parseResult.FindTrack(t => t.Name == "Ambient");
+
+            Console.WriteLine(track?.TrackId.ToString() ?? "Missing ID :(");
 
             return 0;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ReaperCore.Nodes;
 
 namespace ReaperCore
@@ -8,6 +9,7 @@ namespace ReaperCore
     public interface IReaperParser
     {
         IReaperParseResult Parse(string filePath);
+        Task<IReaperParseResult> ParseAsync(string filePath);
     }
 
     public class ReaperParser : IReaperParser
@@ -51,6 +53,12 @@ namespace ReaperCore
                 _logger.LogError(e);
                 return new ReaperParseResult(null, filePath, false);
             }
+        }
+
+        public Task<IReaperParseResult> ParseAsync(string filePath)
+        {
+            var res = Parse(filePath);
+            return Task.FromResult(res); // TODO: Be my guest and implement properly ¯\_(ツ)_/¯
         }
 
         /// <summary>
