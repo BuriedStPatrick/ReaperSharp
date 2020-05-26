@@ -9,6 +9,9 @@ I don't know if I'll have time or the patience to keep working on this. So if yo
 
 ## Usage
 ```C#
+using ReaperCore;
+using ReaperCore.Extensions;
+
 // Initialize the parser
 // DebugLogger: Use whatever ILogger implementation you want. This will get removed at some point.
 var parser = new ReaperParser(new DebugLogger()); 
